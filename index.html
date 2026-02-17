@@ -134,16 +134,19 @@ SOFTWARE. -->
     .code-header { background: #1e293b; padding: 10px 15px; display: flex; gap: 8px; }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
     .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
-    .code-body { 
-        padding: 20px; 
-        color: #e2e8f0; 
-        font-size: 0.8rem; 
-        line-height: 1.6;
-        border-right: 2px solid var(--accent);
-        white-space: nowrap;
-        overflow: hidden;
-        width: 0;
-        animation: typing 3s steps(40, end) forwards, blink 0.8s infinite;
+  .code-body { 
+    padding: 20px; 
+    color: #e2e8f0; 
+    font-size: 0.8rem; 
+    line-height: 1.6;
+    border-right: 2px solid var(--accent);
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    text-align: left; /* Forces text to start at the left */
+    margin-right: auto; /* Pushes any remaining space to the right */
+    animation: typing 3s steps(40, end) forwards, blink 0.8s infinite;
+}
     }
     @keyframes typing { from { width: 0 } to { width: 100% } }
     @keyframes blink { 50% { border-color: transparent } }
