@@ -132,7 +132,80 @@ SOFTWARE. -->
         transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .glass-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.06); border-color: var(--accent); }
+    /* Enhanced Glass Card Hover */
+.glass-card {
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+}
 
+.glass-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 20px rgba(96, 165, 250, 0.1);
+}
+
+/* Subtle shine streak that passes through the card on hover */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+    transform: rotate(45deg);
+    transition: 0.6s;
+}
+
+.glass-card:hover::before {
+    left: 100%;
+}
+       /* Code Window Interaction */
+.code-window {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.code-window:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                -5px 5px 15px rgba(168, 85, 247, 0.2);
+}
+
+/* Make the green dot "blink" when hovering the editor */
+.code-window:hover .green {
+    animation: pulse-green 1.5s infinite;
+}
+/* Navbar Hover Effect */
+nav a {
+    position: relative;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent);
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav a:hover {
+    text-shadow: 0 0 8px var(--accent);
+}
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(39, 201, 63, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0); }
+}
     /* Contact */
     .contact-box { width: 100%; max-width: 600px; background: var(--glass); padding: 30px; border-radius: 24px; border: 1px solid var(--glass-border); }
     input, textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; color: white; margin-bottom: 15px; outline: none; transition: 0.3s; }
