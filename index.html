@@ -27,108 +27,135 @@ SOFTWARE. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kash Code</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #030712;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent: #60a5fa;
-            --secondary: #a855f7;
-            --text-main: #f3f4f6;
-        }
+   <style>
+    :root {
+        --bg: #030712;
+        --glass: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --accent: #60a5fa;
+        --secondary: #a855f7;
+        --text-main: #f3f4f6;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
+    body {
+        background-color: var(--bg);
+        color: var(--text-main);
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+        line-height: 1.6;
+    }
 
-        /* Background Glows */
-        .glow {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-            opacity: 0.15;
-        }
-        .glow-1 { top: -100px; right: -100px; background: var(--accent); }
-        .glow-2 { bottom: -100px; left: -100px; background: var(--secondary); }
+    /* Background Glows */
+    .glow {
+        position: fixed;
+        width: 40vw; /* Responsive width */
+        height: 40vw;
+        border-radius: 50%;
+        filter: blur(100px);
+        z-index: -1;
+        opacity: 0.15;
+    }
+    .glow-1 { top: -10%; right: -10%; background: var(--accent); }
+    .glow-2 { bottom: -10%; left: -10%; background: var(--secondary); }
 
-        /* Floating Glass Navbar */
-        nav {
-            position: fixed;
-            top: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: fit-content;
-            padding: 12px 30px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            display: flex;
-            gap: 2rem;
-            z-index: 1000;
-        }
+    /* Floating Glass Navbar */
+    nav {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 600px;
+        padding: 12px 20px;
+        background: var(--glass);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid var(--glass-border);
+        border-radius: 100px;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        z-index: 1000;
+    }
 
-        nav a { text-decoration: none; color: #94a3b8; font-size: 0.9rem; font-weight: 500; transition: 0.3s; }
-        nav a:hover { color: var(--accent); }
+    nav a { text-decoration: none; color: #94a3b8; font-size: 0.85rem; font-weight: 500; transition: 0.3s; white-space: nowrap; }
+    nav a:hover { color: var(--accent); }
 
-        section { padding: 100px 10%; min-height: 100vh; display: flex; align-items: center; }
+    /* Container for layout consistency */
+    section { 
+        padding: 120px 8% 60px; 
+        min-height: 100vh; 
+        display: flex; 
+        align-items: center; 
+        max-width: 1400px;
+        margin: 0 auto;
+    }
 
-        /* Hero Section */
-        .hero-content { flex: 1; }
-        .hero-content h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; }
-        .hero-content span { background: linear-gradient(90deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    /* Hero Section */
+    .hero-content { flex: 1.2; text-align: left; }
+    .hero-content h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; margin-bottom: 20px; }
+    .hero-content span { background: linear-gradient(90deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Sample Code Editor */
-        .code-window {
-            flex: 1;
-            background: #0f172a;
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            font-family: 'Fira Code', monospace;
-            overflow: hidden;
-            max-width: 500px;
-        }
-        .code-header { background: #1e293b; padding: 10px 15px; display: flex; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
-        .code-body { padding: 20px; color: #e2e8f0; font-size: 0.85rem; line-height: 1.5; }
-        .code-keyword { color: var(--secondary); }
-        .code-func { color: var(--accent); }
-        .code-string { color: #34d399; }
+    /* Sample Code Editor */
+    .code-window {
+        flex: 1;
+        background: #0f172a;
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        font-family: 'Fira Code', monospace;
+        overflow: hidden;
+        margin-left: 40px;
+    }
+    .code-header { background: #1e293b; padding: 10px 15px; display: flex; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+    .code-body { padding: 20px; color: #e2e8f0; font-size: 0.8rem; line-height: 1.6; }
+    .code-keyword { color: var(--secondary); }
+    .code-func { color: var(--accent); }
+    .code-string { color: #34d399; }
 
-        /* Projects */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; width: 100%; }
-        .glass-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 30px;
-            transition: 0.4s;
-        }
-        .glass-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.06); border-color: var(--accent); }
+    /* Cards */
+    .card-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        gap: 1.5rem; 
+        width: 100%; 
+    }
+    .glass-card {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 25px;
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .glass-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.06); border-color: var(--accent); }
 
-        /* Contact Form */
-        .contact-box { width: 100%; max-width: 600px; background: var(--glass); padding: 40px; border-radius: 24px; border: 1px solid var(--glass-border); }
-        input, textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; color: white; margin-bottom: 15px; outline: none; }
-        input:focus { border-color: var(--accent); }
-        .btn { background: var(--accent); color: #000; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+    /* Contact */
+    .contact-box { width: 100%; max-width: 600px; background: var(--glass); padding: 30px; border-radius: 24px; border: 1px solid var(--glass-border); }
+    input, textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; color: white; margin-bottom: 15px; outline: none; transition: 0.3s; }
+    input:focus, textarea:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); }
+    .btn { background: var(--accent); color: #000; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(96, 165, 250, 0.4); }
 
-        @media (max-width: 900px) {
-            section { flex-direction: column; text-align: center; }
-            .hero-content h1 { font-size: 3rem; }
-            .code-window { display: none; }
-        }
-    </style>
+    /* Responsive Breakdown */
+    @media (max-width: 1024px) {
+        section { flex-direction: column; text-align: center; padding-top: 100px; }
+        .hero-content { margin-bottom: 50px; }
+        .code-window { margin-left: 0; width: 100%; max-width: 500px; }
+        .hero-content h1 { font-size: 3.5rem; }
+    }
+
+    @media (max-width: 600px) {
+        nav { gap: 1rem; padding: 10px 15px; }
+        nav a { font-size: 0.75rem; }
+        .hero-content h1 { font-size: 2.5rem; }
+        .contact-box { padding: 20px; }
+        section { padding: 80px 5% 40px; }
+    }
+</style>
 </head>
 <body>
 
@@ -185,26 +212,26 @@ SOFTWARE. -->
     </p>
 </section>
 
-    <section id="projects" style="flex-direction: column; align-items: flex-start;">
-        <h2 style="font-size: 3rem; margin-bottom: 30px;">Featured Work</h2>
-        <div class="card-grid">
-            <div class="glass-card">
-                <h3>SaaS Dashboard</h3>
-                <p style="color: #94a3b8; margin: 15px 0;">A full-stack financial tracking app with real-time charts.</p>
-                <span style="color: var(--accent);">#React #D3.js</span>
-            </div>
-            <div class="glass-card">
-                <h3>E-Commerce Engine</h3>
-                <p style="color: #94a3b8; margin: 15px 0;">Scalable headless commerce solution built with Next.js.</p>
-                <span style="color: var(--accent);">#Next.js #Stripe</span>
-            </div>
-            <div class="glass-card">
-                <h3>AI Chat App</h3>
-                <p style="color: #94a3b8; margin: 15px 0;">An interface for LLMs with custom prompt engineering.</p>
-                <span style="color: var(--accent);">#Python #OpenAI</span>
-            </div>
+   <section id="projects" style="flex-direction: column; align-items: flex-start;">
+    <h2 style="font-size: 3rem; margin-bottom: 30px;">Featured Work</h2>
+    <div class="card-grid">
+        <div class="glass-card">
+            <h3>Shadow Protocol</h3>
+            <p style="color: #94a3b8; margin: 15px 0;">A 2D stealth-action game engine built in Python. Features dynamic light tracking.</p>
+            <span style="color: var(--accent);">#Python #Pygame</span>
         </div>
-    </section>
+        <div class="glass-card">
+            <h3>Zenith Mobile</h3>
+            <p style="color: #94a3b8; margin: 15px 0;">High-performance Java-based Android utility for system optimization.</p>
+            <span style="color: var(--accent);">#Java #AndroidSDK</span>
+        </div>
+        <div class="glass-card">
+            <h3>Neural Quest</h3>
+            <p style="color: #94a3b8; margin: 15px 0;">AI-driven RPG dialogue system using Python and Natural Language Processing.</p>
+            <span style="color: var(--accent);">#Python #AI</span>
+        </div>
+    </div>
+</section>
 
     <section id="contact" style="flex-direction: column;">
         <h2 style="font-size: 3rem; margin-bottom: 30px;">Get In Touch</h2>
