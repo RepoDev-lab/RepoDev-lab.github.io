@@ -27,7 +27,7 @@ SOFTWARE. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kash Code</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-   <style>
+    <style>
     :root {
         --bg: #030712;
         --glass: rgba(255, 255, 255, 0.03);
@@ -47,10 +47,21 @@ SOFTWARE. -->
         line-height: 1.6;
     }
 
+    /* Scroll Reveal Initial State */
+    .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
     /* Background Glows */
     .glow {
         position: fixed;
-        width: 40vw; /* Responsive width */
+        width: 40vw;
         height: 40vw;
         border-radius: 50%;
         filter: blur(100px);
@@ -80,10 +91,20 @@ SOFTWARE. -->
         z-index: 1000;
     }
 
-    nav a { text-decoration: none; color: #94a3b8; font-size: 0.85rem; font-weight: 500; transition: 0.3s; white-space: nowrap; }
-    nav a:hover { color: var(--accent); }
+    nav a { text-decoration: none; color: #94a3b8; font-size: 0.85rem; font-weight: 500; transition: 0.3s; white-space: nowrap; position: relative; }
+    nav a:hover { color: var(--accent); text-shadow: 0 0 8px var(--accent); }
+    nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--accent);
+        transition: width 0.3s ease;
+    }
+    nav a:hover::after { width: 100%; }
 
-    /* Container for layout consistency */
     section { 
         padding: 120px 8% 60px; 
         min-height: 100vh; 
@@ -93,12 +114,11 @@ SOFTWARE. -->
         margin: 0 auto;
     }
 
-    /* Hero Section */
     .hero-content { flex: 1.2; text-align: left; }
     .hero-content h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; margin-bottom: 20px; }
     .hero-content span { background: linear-gradient(90deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-    /* Sample Code Editor */
+    /* Code Window & Typing Animation */
     .code-window {
         flex: 1;
         background: #0f172a;
@@ -108,16 +128,31 @@ SOFTWARE. -->
         font-family: 'Fira Code', monospace;
         overflow: hidden;
         margin-left: 40px;
+        transition: transform 0.5s ease;
     }
+    .code-window:hover { transform: perspective(1000px) rotateY(-5deg) scale(1.02); }
     .code-header { background: #1e293b; padding: 10px 15px; display: flex; gap: 8px; }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
     .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
-    .code-body { padding: 20px; color: #e2e8f0; font-size: 0.8rem; line-height: 1.6; }
+    .code-body { 
+        padding: 20px; 
+        color: #e2e8f0; 
+        font-size: 0.8rem; 
+        line-height: 1.6;
+        border-right: 2px solid var(--accent);
+        white-space: nowrap;
+        overflow: hidden;
+        width: 0;
+        animation: typing 3s steps(40, end) forwards, blink 0.8s infinite;
+    }
+    @keyframes typing { from { width: 0 } to { width: 100% } }
+    @keyframes blink { 50% { border-color: transparent } }
+
     .code-keyword { color: var(--secondary); }
     .code-func { color: var(--accent); }
     .code-string { color: #34d399; }
 
-    /* Cards */
+    /* Projects Grid */
     .card-grid { 
         display: grid; 
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
@@ -129,104 +164,36 @@ SOFTWARE. -->
         border: 1px solid var(--glass-border);
         border-radius: 20px;
         padding: 25px;
-        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .glass-card:hover { transform: translateY(-8px); background: rgba(255,255,255,0.06); border-color: var(--accent); }
-    /* Enhanced Glass Card Hover */
-.glass-card {
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    position: relative;
-    overflow: hidden;
-}
+    .glass-card:hover {
+        transform: translateY(-12px);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--accent);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    .glass-card::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%; width: 200%; height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+        transform: rotate(45deg);
+        transition: 0.6s;
+    }
+    .glass-card:hover::before { left: 100%; }
 
-.glass-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--accent);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
-                0 0 20px rgba(96, 165, 250, 0.1);
-}
-
-/* Subtle shine streak that passes through the card on hover */
-.glass-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
-    transform: rotate(45deg);
-    transition: 0.6s;
-}
-
-.glass-card:hover::before {
-    left: 100%;
-}
-       /* Code Window Interaction */
-.code-window {
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.code-window:hover {
-    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
-                -5px 5px 15px rgba(168, 85, 247, 0.2);
-}
-
-/* Make the green dot "blink" when hovering the editor */
-.code-window:hover .green {
-    animation: pulse-green 1.5s infinite;
-}
-/* Navbar Hover Effect */
-nav a {
-    position: relative;
-}
-
-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 0;
-    background-color: var(--accent);
-    transition: width 0.3s ease;
-}
-
-nav a:hover::after {
-    width: 100%;
-}
-
-nav a:hover {
-    text-shadow: 0 0 8px var(--accent);
-}
-@keyframes pulse-green {
-    0% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(39, 201, 63, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(39, 201, 63, 0); }
-}
-    /* Contact */
+    /* Contact Form */
     .contact-box { width: 100%; max-width: 600px; background: var(--glass); padding: 30px; border-radius: 24px; border: 1px solid var(--glass-border); }
-    input, textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; color: white; margin-bottom: 15px; outline: none; transition: 0.3s; }
-    input:focus, textarea:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); }
+    input, textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; color: white; margin-bottom: 15px; outline: none; }
+    input:focus { border-color: var(--accent); }
     .btn { background: var(--accent); color: #000; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
     .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(96, 165, 250, 0.4); }
 
-    /* Responsive Breakdown */
     @media (max-width: 1024px) {
-        section { flex-direction: column; text-align: center; padding-top: 100px; }
-        .hero-content { margin-bottom: 50px; }
-        .code-window { margin-left: 0; width: 100%; max-width: 500px; }
-        .hero-content h1 { font-size: 3.5rem; }
-    }
-
-    @media (max-width: 600px) {
-        nav { gap: 1rem; padding: 10px 15px; }
-        nav a { font-size: 0.75rem; }
-        .hero-content h1 { font-size: 2.5rem; }
-        .contact-box { padding: 20px; }
-        section { padding: 80px 5% 40px; }
+        section { flex-direction: column; text-align: center; }
+        .code-window { margin-left: 0; width: 100%; margin-top: 40px; }
     }
 </style>
 </head>
@@ -244,7 +211,7 @@ nav a:hover {
 
     <section id="home">
         <div class="hero-content">
-            <h1>Building the <span>Future</span> of Game's.</h1>
+            <h1>Building the <span>Future</span> of Games.</h1>
             <p style="color:#94a3b8; font-size: 1.2rem; margin-top: 20px;">I'm a Developer crafting immersive digital experiences with modern code.</p>
             <br>
             <button class="btn">View My Work</button>
@@ -254,67 +221,77 @@ nav a:hover {
                 <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
             </div>
             <div class="code-body">
-                <span class="code-keyword">const</span> <span class="code-func">developer</span> = {<br>
-                &nbsp;&nbsp;name: <span class="code-string">'Kash Code'</span>,<br>
-                &nbsp;&nbsp;skills: [<span class="code-string">'Python'</span>, <span class="code-string">'Java'</span>, <span class="code-string">'UI Design'</span>],<br>
-                &nbsp;&nbsp;hardWorker: <span class="code-keyword">true</span>,<br>
-                &nbsp;&nbsp;coffeeRequired: <span class="code-keyword">false</span><br>
-                };<br><br>
-                <span class="code-keyword">function</span> <span class="code-func">createMagic</span>() {<br>
-                &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">'✨ Game Built!'</span>;<br>
-                }
+                <span class="code-keyword">const</span> <span class="code-func">KashCode</span> = {<br>
+                &nbsp;&nbsp;focus: [<span class="code-string">'Python'</span>, <span class="code-string">'Java'</span>],<br>
+                &nbsp;&nbsp;builds: [<span class="code-string">'Games'</span>, <span class="code-string">'Apps'</span>],<br>
+                &nbsp;&nbsp;status: <span class="code-string">'Innovating'</span><br>
+                };
             </div>
         </div>
     </section>
 
-    <!-- <section id="about" style="flex-direction: column; align-items: flex-start;">
-        <h2 style="font-size: 3rem; margin-bottom: 30px;">About Me</h2>
-        <p style="max-width: 800px; font-size: 1.2rem; color: #cbd5e1;">
-            I am the architect behind KashCode. I specialize in turning complex logic into seamless digital reality—whether it’s the physics engine of a high-stakes game or the architecture of a high-performance app. With a deep mastery of Python and Java, I don't just write code; I build worlds and solve problems that others find impossible.
-        </p>
-    </section> -->
-
-    <section id="about" style="flex-direction: column; align-items: flex-start;">
-    <h2 style="font-size: 3rem; margin-bottom: 30px;">About <span style="color:var(--accent)">KashCode</span></h2>
-    <p style="max-width: 800px; font-size: 1.2rem; color: #cbd5e1; line-height: 1.8;">
-        I bridge the gap between imagination and execution. Under the <strong>KashCode</strong> banner, 
-        I specialize in <strong>Game Development</strong> and <strong>App Architecture</strong>. 
-        <br><br>
-        Using <strong>Python</strong> for intelligent logic and <strong>Java</strong> for robust systems, 
-        I build high-performance software that is as efficient under the hood as it is beautiful on the surface.
-    </p>
-</section>
-
-   <section id="projects" style="flex-direction: column; align-items: flex-start;">
-    <h2 style="font-size: 3rem; margin-bottom: 30px;">Featured Work</h2>
-    <div class="card-grid">
-        <div class="glass-card">
-            <h3>Shadow Protocol</h3>
-            <p style="color: #94a3b8; margin: 15px 0;">A 2D stealth-action game engine built in Python. Features dynamic light tracking.</p>
-            <span style="color: var(--accent);">#Python #Pygame</span>
-        </div>
-        <div class="glass-card">
-            <h3>Zenith Mobile</h3>
-            <p style="color: #94a3b8; margin: 15px 0;">High-performance Java-based Android utility for system optimization.</p>
-            <span style="color: var(--accent);">#Java #AndroidSDK</span>
-        </div>
-        <div class="glass-card">
-            <h3>Neural Quest</h3>
-            <p style="color: #94a3b8; margin: 15px 0;">AI-driven RPG dialogue system using Python and Natural Language Processing.</p>
-            <span style="color: var(--accent);">#Python #AI</span>
-        </div>
-    </div>
-</section>
-
-    <section id="contact" style="flex-direction: column;">
-        <h2 style="font-size: 3rem; margin-bottom: 30px;">Get In Touch</h2>
-        <div class="contact-box">
-            <input type="text" placeholder="Name">
-            <input type="email" placeholder="Email Address">
-            <textarea rows="4" placeholder="How can I help you?"></textarea>
-            <button class="btn" style="width: 100%;">Send Message</button>
+    <section id="about" class="reveal">
+        <div style="flex-direction: column; align-items: flex-start;">
+            <h2 style="font-size: 3rem; margin-bottom: 30px;">About <span style="color:var(--accent)">KashCode</span></h2>
+            <p style="max-width: 800px; font-size: 1.2rem; color: #cbd5e1; line-height: 1.8;">
+                I bridge the gap between imagination and execution. Under the <strong>KashCode</strong> banner, 
+                I specialize in <strong>Game Development</strong> and <strong>App Architecture</strong>. 
+                <br><br>
+                Using <strong>Python</strong> for intelligent logic and <strong>Java</strong> for robust systems, 
+                I build high-performance software that is as efficient under the hood as it is beautiful on the surface.
+            </p>
         </div>
     </section>
 
+    <section id="projects" class="reveal">
+        <div style="width:100%">
+            <h2 style="font-size: 3rem; margin-bottom: 30px;">Featured Work</h2>
+            <div class="card-grid">
+                <div class="glass-card">
+                    <h3>Shadow Protocol</h3>
+                    <p style="color: #94a3b8; margin: 15px 0;">A 2D stealth-action game engine built in Python. Features dynamic light tracking.</p>
+                    <span style="color: var(--accent);">#Python #Pygame</span>
+                </div>
+                <div class="glass-card">
+                    <h3>Zenith Mobile</h3>
+                    <p style="color: #94a3b8; margin: 15px 0;">High-performance Java-based Android utility for system optimization.</p>
+                    <span style="color: var(--accent);">#Java #AndroidSDK</span>
+                </div>
+                <div class="glass-card">
+                    <h3>Neural Quest</h3>
+                    <p style="color: #94a3b8; margin: 15px 0;">AI-driven RPG dialogue system using Python and NLP.</p>
+                    <span style="color: var(--accent);">#Python #AI</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="reveal">
+        <div style="flex-direction: column; width: 100%; display: flex; align-items: center;">
+            <h2 style="font-size: 3rem; margin-bottom: 30px;">Get In Touch</h2>
+            <div class="contact-box">
+                <input type="text" placeholder="Name">
+                <input type="email" placeholder="Email Address">
+                <textarea rows="4" placeholder="How can I help you?"></textarea>
+                <button class="btn" style="width: 100%;">Send Message</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Initial check
+    </script>
 </body>
 </html>
