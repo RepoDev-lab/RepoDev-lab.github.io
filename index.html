@@ -25,173 +25,183 @@ SOFTWARE. -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Dev Portfolio | Modern Glass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent-color: #38bdf8;
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
+            --bg: #030712;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent: #60a5fa;
+            --secondary: #a855f7;
+            --text-main: #f3f4f6;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg);
             color: var(--text-main);
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
 
-        /* Glassmorphism Navbar */
+        /* Background Glows */
+        .glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.15;
+        }
+        .glow-1 { top: -100px; right: -100px; background: var(--accent); }
+        .glow-2 { bottom: -100px; left: -100px; background: var(--secondary); }
+
+        /* Floating Glass Navbar */
         nav {
             position: fixed;
-            top: 20px;
+            top: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 1000px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            width: fit-content;
+            padding: 12px 30px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 100px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
+            gap: 2rem;
             z-index: 1000;
         }
 
-        nav .logo { font-weight: 700; color: var(--accent-color); font-size: 1.2rem; }
-        nav ul { display: flex; list-style: none; gap: 2rem; }
-        nav a { text-decoration: none; color: var(--text-main); font-size: 0.9rem; transition: 0.3s; }
-        nav a:hover { color: var(--accent-color); }
+        nav a { text-decoration: none; color: #94a3b8; font-size: 0.9rem; font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: var(--accent); }
 
-        /* Sections Styling */
-        section {
-            padding: 120px 10% 60px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+        section { padding: 100px 10%; min-height: 100vh; display: flex; align-items: center; }
 
-        h2 { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--accent-color); }
+        /* Hero Section */
+        .hero-content { flex: 1; }
+        .hero-content h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 20px; }
+        .hero-content span { background: linear-gradient(90deg, var(--accent), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Hero/About Section */
-        #about h1 { font-size: 4rem; margin-bottom: 0.5rem; }
-        #about p { max-width: 600px; color: var(--text-dim); font-size: 1.1rem; }
-
-        /* Projects Grid */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .project-card {
-            background: var(--glass-bg);
+        /* Sample Code Editor */
+        .code-window {
+            flex: 1;
+            background: #0f172a;
             border: 1px solid var(--glass-border);
-            padding: 2rem;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            font-family: 'Fira Code', monospace;
+            overflow: hidden;
+            max-width: 500px;
         }
+        .code-header { background: #1e293b; padding: 10px 15px; display: flex; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+        .code-body { padding: 20px; color: #e2e8f0; font-size: 0.85rem; line-height: 1.5; }
+        .code-keyword { color: var(--secondary); }
+        .code-func { color: var(--accent); }
+        .code-string { color: #34d399; }
 
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-color);
+        /* Projects */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; width: 100%; }
+        .glass-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: 0.4s;
         }
+        .glass-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.06); border-color: var(--accent); }
 
         /* Contact Form */
-        .contact-container {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 3rem;
-            border-radius: 20px;
-            max-width: 600px;
-        }
+        .contact-box { width: 100%; max-width: 600px; background: var(--glass); padding: 40px; border-radius: 24px; border: 1px solid var(--glass-border); }
+        input, textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; color: white; margin-bottom: 15px; outline: none; }
+        input:focus { border-color: var(--accent); }
+        .btn { background: var(--accent); color: #000; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 700; cursor: pointer; }
 
-        input, textarea {
-            width: 100%;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            color: white;
-        }
-
-        button {
-            background: var(--accent-color);
-            color: #000;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover { opacity: 0.8; }
-
-        @media (max-width: 768px) {
-            nav ul { display: none; }
-            #about h1 { font-size: 2.5rem; }
+        @media (max-width: 900px) {
+            section { flex-direction: column; text-align: center; }
+            .hero-content h1 { font-size: 3rem; }
+            .code-window { display: none; }
         }
     </style>
 </head>
 <body>
 
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
     <nav>
-        <div class="logo">DEV.PORTFOLIO</div>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
     </nav>
 
-    <section id="about">
-        <h1>Hi, I'm <span style="color:var(--accent-color)">Your Name</span>.</h1>
-        <p>A passionate developer building sleek, functional web experiences. Welcome to my GitHub-hosted portfolio. I specialize in turning complex problems into simple, beautiful code.</p>
-    </section>
-
-    <section id="projects">
-        <h2>My Projects</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <h3>Project One</h3>
-                <p>A brief description of this cool thing you built using React and Node.js.</p>
+    <section id="home">
+        <div class="hero-content">
+            <h1>Building the <span>Future</span> of Web.</h1>
+            <p style="color:#94a3b8; font-size: 1.2rem; margin-top: 20px;">I'm a Developer crafting immersive digital experiences with modern code.</p>
+            <br>
+            <button class="btn">View My Work</button>
+        </div>
+        <div class="code-window">
+            <div class="code-header">
+                <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
             </div>
-            <div class="project-card">
-                <h3>Project Two</h3>
-                <p>Another awesome app that solves a real-world problem with clean code.</p>
-            </div>
-            <div class="project-card">
-                <h3>Project Three</h3>
-                <div style="margin-top:10px; color:var(--accent-color); font-size:0.8rem;">#TypeScript #CSS</div>
-                <p>Check out the repository for more details on this specific build.</p>
+            <div class="code-body">
+                <span class="code-keyword">const</span> <span class="code-func">developer</span> = {<br>
+                &nbsp;&nbsp;name: <span class="code-string">'Your Name'</span>,<br>
+                &nbsp;&nbsp;skills: [<span class="code-string">'React'</span>, <span class="code-string">'Node'</span>, <span class="code-string">'UI Design'</span>],<br>
+                &nbsp;&nbsp;hardWorker: <span class="code-keyword">true</span>,<br>
+                &nbsp;&nbsp;coffeeRequired: <span class="code-keyword">true</span><br>
+                };<br><br>
+                <span class="code-keyword">function</span> <span class="code-func">createMagic</span>() {<br>
+                &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">'✨ Website Built!'</span>;<br>
+                }
             </div>
         </div>
     </section>
 
-    <section id="contact">
-        <h2>Get In Touch</h2>
-        <div class="contact-container">
+    <section id="about" style="flex-direction: column; align-items: flex-start;">
+        <h2 style="font-size: 3rem; margin-bottom: 30px;">About Me</h2>
+        <p style="max-width: 800px; font-size: 1.2rem; color: #cbd5e1;">
+            I specialize in building high-performance web applications. My approach focuses on clean architecture, accessible design, and cutting-edge technology.
+        </p>
+    </section>
+
+    <section id="projects" style="flex-direction: column; align-items: flex-start;">
+        <h2 style="font-size: 3rem; margin-bottom: 30px;">Featured Work</h2>
+        <div class="card-grid">
+            <div class="glass-card">
+                <h3>SaaS Dashboard</h3>
+                <p style="color: #94a3b8; margin: 15px 0;">A full-stack financial tracking app with real-time charts.</p>
+                <span style="color: var(--accent);">#React #D3.js</span>
+            </div>
+            <div class="glass-card">
+                <h3>E-Commerce Engine</h3>
+                <p style="color: #94a3b8; margin: 15px 0;">Scalable headless commerce solution built with Next.js.</p>
+                <span style="color: var(--accent);">#Next.js #Stripe</span>
+            </div>
+            <div class="glass-card">
+                <h3>AI Chat App</h3>
+                <p style="color: #94a3b8; margin: 15px 0;">An interface for LLMs with custom prompt engineering.</p>
+                <span style="color: var(--accent);">#Python #OpenAI</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="flex-direction: column;">
+        <h2 style="font-size: 3rem; margin-bottom: 30px;">Get In Touch</h2>
+        <div class="contact-box">
             <input type="text" placeholder="Name">
-            <input type="email" placeholder="Email">
-            <textarea rows="5" placeholder="Your Message"></textarea>
-            <button>Send Message</button>
+            <input type="email" placeholder="Email Address">
+            <textarea rows="4" placeholder="How can I help you?"></textarea>
+            <button class="btn" style="width: 100%;">Send Message</button>
         </div>
     </section>
 
